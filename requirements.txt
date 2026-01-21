@@ -22,10 +22,8 @@ langchain_chroma
 langchain[docarray]
 datasets
 sentencepiece
-matplotlib
 google.generativeai
 anthropic
-scikit-learn
 unstructured
 chromadb
 plotly
@@ -35,5 +33,4 @@ pydub
 modal
 ollama
 accelerate
-sentencepiece
 bitsandbytes
