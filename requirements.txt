@@ -22,7 +22,7 @@ langchain_chroma
 langchain[docarray]
 datasets
 sentencepiece
-google.generativeai
+google-generativeai
 anthropic
 unstructured
 chromadb
