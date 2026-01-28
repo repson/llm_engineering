@@ -1,37 +1,86 @@
 #include <iostream>
+
+#include <cstdlib>
+
+#include <ctime>
+
+#include <cmath>
+
 #include <iomanip>
-#include <chrono>
 
+using namespace std;
+
+// LCG function
+int lcg(int seed, int a = 1664525, int c = 1013904223, int m = 2**32) {
+    int value = seed;
+    while (true) {
+        value = (a * value + c) % m;
+        yield value;
+   
+}
+}
+
+// Maximum subarray sum function
+int max_subarray_sum(int n, int seed, int min_val, int max_val) {
+    lcg_gen = lcg(seed);
+    random_numbers = new int[n];
+    for (int i = 0;
+i < n;
+i++) {
+        random_numbers[i] = (next(lcg_gen) % (max_val - min_val + 1) + min_val);
+   
+}
+    int max_sum = INT_MIN;
+    for (int i = 0;
+i < n;
+i++) {
+        int current_sum = 0;
+        for (int j = i;
+j < n;
+j++) {
+            current_sum += random_numbers[j];
+            if (current_sum > max_sum) {
+                max_sum = current_sum;
+           
+}
+       
+}
+   
+}
+    return max_sum;
+}
+
+// Total maximum subarray sum function
+int total_max_subarray_sum(int n, int initial_seed, int min_val, int max_val) {
+    int total_sum = 0;
+    lcg_gen = lcg(initial_seed);
+    for (int i = 0;
+i < 20;
+i++) {
+        int seed = next(lcg_gen);
+        total_sum += max_subarray_sum(n, seed, min_val, max_val);
+   
+}
+    return total_sum;
+}
+
+// Main function
 int main() {
-    // Use long double for higher precision, similar to Python's float
-    long double result = 1.0L;
-    long long iterations = 100000000LL;
-    long long param1 = 4LL;
-    long long param2 = 1LL;
+    int n = 10000;
+// Number of random numbers
+    int initial_seed = 42;
+// Initial seed for the LCG
+    int min_val = -10;
+// Minimum value of random numbers
+    int max_val = 10;
+// Maximum value of random numbers
 
-    // Use std::chrono for accurate timing
-    auto start_time = std::chrono::high_resolution_clock::now();
+    // Timing the function
+    double start_time = clock();
+    int result = total_max_subarray_sum(n, initial_seed, min_val, max_val);
+    double end_time = clock();
 
-    // Optimized loop for calculation
-    for (long long i = 1LL; i <= iterations; ++i) {
-        long double j1 = static_cast<long double>(i) * param1 - param2;
-        result -= (1.0L / j1);
-        long double j2 = static_cast<long double>(i) * param1 + param2;
-        result += (1.0L / j2);
-    }
-
-    result *= 4.0L;
-
-    auto end_time = std::chrono::high_resolution_clock::now();
-    std::chrono::duration<double> elapsed_time = end_time - start_time;
-
-    // Set precision for output to match Python's .12f
-    std::cout << std::fixed << std::setprecision(12);
-    std::cout << "Result: " << result << std::endl;
-
-    // Set precision for execution time to match Python's .6f
-    std::cout << std::fixed << std::setprecision(6);
-    std::cout << "Execution Time: " << elapsed_time.count() << " seconds" << std::endl;
+    cout << "Total Maximum Subarray Sum (20 runs): " << result << endl;
+    cout << "Execution Time: " << fixed << setprecision(6) << (end_time - start_time) / CLOCKS_PER_SEC << " seconds" << endl;
 
     return 0;
-}
