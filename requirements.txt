@@ -20,6 +20,9 @@ langchain-openai
 langchain_experimental
 langchain_chroma
 langchain[docarray]
+langchain-community
+langchain-text-splitters
+langchain-classic
 datasets
 sentencepiece
 google-generativeai
