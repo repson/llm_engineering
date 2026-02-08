@@ -10,7 +10,6 @@ from sentence_transformers import SentenceTransformer
 from datasets import load_dataset
 import chromadb
 from items import Item
-from testing import Tester
 from agents.agent import Agent
 
 
@@ -20,7 +19,7 @@ class FrontierAgent(Agent):
     color = Agent.BLUE
 
     MODEL = "gpt-4o-mini"
-    
+
     def __init__(self, collection):
         """
         Configura esta instancia conectándose a OpenAI, al almacén de datos Chroma,
@@ -102,4 +101,3 @@ class FrontierAgent(Agent):
         result = self.get_price(reply)
         self.log(f"El Agente Frontera ha terminado - predicción ${result:.2f}")
         return result
-        
