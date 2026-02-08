@@ -11,6 +11,8 @@ from agents.deals import Opportunity
 from sklearn.manifold import TSNE
 import numpy as np
 
+# Download pkl files:
+# https://drive.google.com/drive/folders/1f_IZGybvs9o0J5sb3xmtTEQB3BXllzrW
 
 # Colors for logging
 BG_BLUE = '\033[44m'

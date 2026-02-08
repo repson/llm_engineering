@@ -1,6 +1,10 @@
 from typing import Optional
 from transformers import AutoTokenizer
 import re
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 BASE_MODEL = "meta-llama/Meta-Llama-3.1-8B"
 MIN_TOKENS = 150
@@ -13,7 +17,11 @@ class Item:
     Un artículo es un punto de datos limpio y curado de un producto con un precio.
     """
 
-    tokenizer = AutoTokenizer.from_pretrained(BASE_MODEL, trust_remote_code=True)
+    tokenizer = AutoTokenizer.from_pretrained(
+        BASE_MODEL,
+        trust_remote_code=True,
+        token=os.getenv("HF_TOKEN")
+    )
     PREFIX = "Price is $"
     QUESTION = "How much does this cost to the nearest dollar?"
     REMOVALS = ['"Batteries Included?": "No"', '"Batteries Included?": "Yes"', '"Batteries Required?": "No"', '"Batteries Required?": "Yes"', "By Manufacturer", "Item", "Date First", "Package", ":", "Number of", "Best Sellers", "Number", "Product "]

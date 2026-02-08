@@ -38,7 +38,7 @@ def setup_logging(log_queue):
 
 class App:
 
-    def __init__(self):    
+    def __init__(self):
         self.agent_framework = None
 
     def get_agent_framework(self):
