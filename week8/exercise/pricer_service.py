@@ -9,7 +9,8 @@ secrets = [modal.Secret.from_name("hf-secret")]
 
 # Constants
 
-GPU = "T4"
+#GPU = "T4"
+GPU="A10G"
 BASE_MODEL = "meta-llama/Meta-Llama-3.1-8B"
 PROJECT_NAME = "pricer"
 HF_USER = "ed-donner" # your HF name here! Or use mine if you just want to reproduce my results.
@@ -27,20 +28,13 @@ PREFIX = "Price is $"
 
 @app.cls(image=image, secrets=secrets, gpu=GPU, timeout=1800)
 class Pricer:
-
     @modal.enter()
     def setup(self):
-        from huggingface_hub import snapshot_download
         import os
         import torch
         from transformers import AutoTokenizer, AutoModelForCausalLM, BitsAndBytesConfig, set_seed
         from peft import PeftModel
-        # Download models if not cached
-        os.makedirs(MODEL_DIR, exist_ok=True)
-        if not os.path.exists(BASE_DIR):
-            snapshot_download(BASE_MODEL, local_dir=BASE_DIR)
-        if not os.path.exists(FINETUNED_DIR):
-            snapshot_download(FINETUNED_MODEL, revision=REVISION, local_dir=FINETUNED_DIR)
+
         # Quant Config
         quant_config = BitsAndBytesConfig(
             load_in_4bit=True,
@@ -48,16 +42,26 @@ class Pricer:
             bnb_4bit_compute_dtype=torch.bfloat16,
             bnb_4bit_quant_type="nf4"
         )
+
         # Load model and tokenizer
-        self.tokenizer = AutoTokenizer.from_pretrained(BASE_DIR)
+
+        self.tokenizer = AutoTokenizer.from_pretrained(BASE_MODEL)
         self.tokenizer.pad_token = self.tokenizer.eos_token
         self.tokenizer.padding_side = "right"
+
         self.base_model = AutoModelForCausalLM.from_pretrained(
-            BASE_DIR,
+            BASE_MODEL,
             quantization_config=quant_config,
-            device_map="auto"
+            device_map="auto",
+            dtype=torch.bfloat16,
+            low_cpu_mem_usage=True
         )
-        self.fine_tuned_model = PeftModel.from_pretrained(self.base_model, FINETUNED_DIR, revision=REVISION)
+
+        self.fine_tuned_model = PeftModel.from_pretrained(
+            self.base_model,
+            FINETUNED_MODEL,
+            revision=REVISION
+        )
 
     @modal.method()
     def price(self, description: str) -> float:
