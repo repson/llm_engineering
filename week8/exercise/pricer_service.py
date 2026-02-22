@@ -73,9 +73,17 @@ class Pricer:
 
         set_seed(42)
         prompt = f"{QUESTION}\n\n{description}\n\n{PREFIX}"
-        inputs = self.tokenizer.encode(prompt, return_tensors="pt").to("cuda")
+        inputs = self.tokenizer.encode(
+            prompt,
+            return_tensors="pt"
+        ).to("cuda")
         attention_mask = torch.ones(inputs.shape, device="cuda")
-        outputs = self.fine_tuned_model.generate(inputs, attention_mask=attention_mask, max_new_tokens=5, num_return_sequences=1)
+        outputs = self.fine_tuned_model.generate(
+            inputs,
+            attention_mask=attention_mask,
+            max_new_tokens=5,
+            num_return_sequences=1
+        )
         result = self.tokenizer.decode(outputs[0])
 
         contents = result.split("Price is $")[1]

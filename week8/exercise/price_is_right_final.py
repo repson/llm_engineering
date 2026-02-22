@@ -91,8 +91,8 @@ class App:
                 )])
 
                 fig.update_layout(
-                    scene=dict(xaxis_title='x', 
-                               yaxis_title='y', 
+                    scene=dict(xaxis_title='x',
+                               yaxis_title='y',
                                zaxis_title='z',
                                aspectmode='manual',
                                aspectratio=dict(x=2.2, y=2.2, z=1),  # Make x-axis twice as long

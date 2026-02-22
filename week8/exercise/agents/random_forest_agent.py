@@ -28,7 +28,7 @@ class RandomForestAgent(Agent):
         Usa un modelo de Bosque aleatorio para estimar el precio del artículo descrito
         :param description: el producto que se va a estimar
         :return: el precio en coma flotante
-        """        
+        """
         self.log("El Agente de Bosque aleatorio ha empezado una predicción")
         vector = self.vectorizer.encode([description])
         result = max(0, self.model.predict(vector)[0])
