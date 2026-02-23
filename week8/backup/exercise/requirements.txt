@@ -1,0 +1,42 @@
+# Core ML and AI libraries
+torch
+transformers
+bitsandbytes
+accelerate
+peft
+sentence-transformers
+datasets
+huggingface-hub
+
+# LLM APIs
+openai
+
+# Vector Database
+chromadb
+
+# Machine Learning
+scikit-learn
+numpy
+pandas
+joblib
+
+# Web Framework
+gradio
+
+# Data Processing
+beautifulsoup4
+feedparser
+requests
+tqdm
+
+# Messaging
+twilio
+
+# Utilities
+python-dotenv
+
+# Visualization
+plotly
+
+# Modal (serverless deployment)
+modal
