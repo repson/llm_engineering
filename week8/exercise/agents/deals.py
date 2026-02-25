@@ -1,5 +1,5 @@
 from pydantic import BaseModel
-from typing import List, Dict, Self
+from typing import List, Dict, Self, Optional
 from bs4 import BeautifulSoup
 import re
 import feedparser
@@ -107,3 +107,21 @@ class Opportunity(BaseModel):
     deal: Deal
     estimate: float
     discount: float
+
+
+class TrackedProduct(BaseModel):
+    """
+    A product that the user explicitly wants to monitor.
+    Stores the current price, a configurable target price, an alert threshold
+    (% drop from initial price), and the full price history.
+    """
+    url: str
+    title: str = "Pending..."
+    image_url: Optional[str] = None
+    current_price: Optional[float] = None
+    target_price: Optional[float] = None
+    alert_threshold_pct: float = 10.0   # Alert when price drops this % from initial
+    price_history: List[Dict] = []      # [{"timestamp": ISO str, "price": float}]
+    last_checked: Optional[str] = None
+    added_at: str = ""
+    scrape_error: Optional[str] = None  # Last scrape error message, if any
