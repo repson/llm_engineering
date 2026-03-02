@@ -42,8 +42,8 @@ cmd_deploy() {
     echo -e "${GREEN}🚀 Deploying '${APP_NAME}' to Modal...${RESET}"
     echo -e "${YELLOW}   This may take several minutes on first run.${RESET}\n"
     modal deploy "$SERVICE_FILE"
-    echo -e "\n${GREEN}✅ Service deployed successfully.${RESET}"
-    echo -e "${CYAN}   🌐 View at: https://modal.com/apps/repson0/main/deployed/${APP_NAME}${RESET}"
+    echo -e "\n${GREEN}Service deployed successfully.${RESET}"
+    echo -e "${CYAN}   View at: https://modal.com/apps/repson0/main/deployed/${APP_NAME}${RESET}"
 }
 
 cmd_status() {
@@ -57,24 +57,24 @@ cmd_logs() {
 }
 
 cmd_stop() {
-    echo -e "${RED}🛑 Stopping '${APP_NAME}' on Modal...${RESET}"
+    echo -e "${RED}Stopping '${APP_NAME}' on Modal...${RESET}"
     modal app stop "$APP_NAME"
-    echo -e "${GREEN}✅ App stopped.${RESET}"
+    echo -e "${GREEN}App stopped.${RESET}"
 }
 
 cmd_warm() {
-    echo -e "${YELLOW}🔥 Keeping instance warm (Ctrl+C to exit)...${RESET}\n"
+    echo -e "${YELLOW}Keeping instance warm (Ctrl+C to exit)...${RESET}\n"
     python keep_warm.py
 }
 
 cmd_ping() {
-    echo -e "${CYAN}🏓 Sending a single ping to the Modal service...${RESET}"
+    echo -e "${CYAN}Sending a single ping to the Modal service...${RESET}"
     python - <<'EOF'
 import modal
 Pricer = modal.Cls.from_name("pricer-service", "Pricer")
 pricer = Pricer()
 reply = pricer.wake_up.remote()
-print(f"✅ Service response: {reply}")
+print(f"Service response: {reply}")
 EOF
 }
 

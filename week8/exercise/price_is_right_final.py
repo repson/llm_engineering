@@ -168,7 +168,7 @@ class App:
                 # ============================================================ #
                 # Tab 1 — Deal Hunter (original)                                #
                 # ============================================================ #
-                with gr.Tab("🔍 Deal Hunter"):
+                with gr.Tab("Deal Hunter"):
                     with gr.Row():
                         opportunities_dataframe = gr.Dataframe(
                             headers=["Deal", "Price", "Estimate", "Discount", "URL"],
@@ -198,11 +198,11 @@ class App:
                 # ============================================================ #
                 # Tab 2 — Analytics Dashboard (new)                             #
                 # ============================================================ #
-                with gr.Tab("📊 Analytics"):
+                with gr.Tab("Analytics"):
 
                     with gr.Row():
                         refresh_analytics_btn = gr.Button(
-                            "🔄 Refresh Dashboard", variant="primary", scale=0
+                            "Refresh Dashboard", variant="primary", scale=0
                         )
 
                     # KPI summary cards
@@ -228,7 +228,7 @@ class App:
                             chart_radar = gr.Plot(show_label=False)
                         with gr.Column(scale=1):
                             gr.Markdown(
-                                "### 🗺️ How to read the charts\n\n"
+                                "### How to read the charts\n\n"
                                 "**Price Distribution** — Overlapping histograms of deal prices "
                                 "(red) vs. the ensemble model's estimated fair value (teal). "
                                 "The further right the teal peak is, the better the deals found.\n\n"
@@ -269,7 +269,7 @@ class App:
                 # ============================================================ #
                 # Tab 3 — Product Tracker                                       #
                 # ============================================================ #
-                with gr.Tab("🎯 Product Tracker"):
+                with gr.Tab("Product Tracker"):
 
                     # -- Add product form --
                     gr.Markdown("### Track a new Amazon product")
@@ -287,7 +287,7 @@ class App:
                             minimum=1, maximum=50, value=10, step=1,
                             label="Alert on price drop (%)", scale=1,
                         )
-                        add_btn = gr.Button("➕ Track", variant="primary", scale=1)
+                        add_btn = gr.Button("Track", variant="primary", scale=1)
 
                     add_status = gr.Markdown("")
 
@@ -305,8 +305,8 @@ class App:
                     )
 
                     with gr.Row():
-                        refresh_tracker_btn = gr.Button("🔄 Check Prices Now", variant="primary")
-                        remove_btn = gr.Button("🗑️ Remove Selected", variant="stop")
+                        refresh_tracker_btn = gr.Button("Check Prices Now", variant="primary")
+                        remove_btn = gr.Button("Remove Selected", variant="stop")
 
                     tracker_alerts_html = gr.HTML()
 
@@ -329,7 +329,7 @@ class App:
                         if not url:
                             return (
                                 self.get_agent_framework().get_tracker_table(),
-                                "⚠️ Please enter a URL.",
+                                "Please enter a URL.",
                             )
                         try:
                             fw = self.get_agent_framework()
@@ -338,16 +338,16 @@ class App:
                                 target_price=float(target_price) if target_price else None,
                                 alert_threshold_pct=float(threshold),
                             )
-                            msg = f"✅ **Added**: {product.title[:70]}"
+                            msg = f"**Added**: {product.title[:70]}"
                             if product.current_price:
                                 msg += f" — Current price: **${product.current_price:.2f}**"
                             if product.scrape_error:
-                                msg = f"⚠️ Added but scrape had issues: {product.scrape_error}"
+                                msg = f"Added but scrape had issues: {product.scrape_error}"
                             return fw.get_tracker_table(), msg
                         except Exception as e:
                             return (
                                 self.get_agent_framework().get_tracker_table(),
-                                f"❌ Error: {e}",
+                                f"Error: {e}",
                             )
 
                     add_btn.click(

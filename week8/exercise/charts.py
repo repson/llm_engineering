@@ -129,7 +129,7 @@ def price_distribution(memory) -> go.Figure:
     distributions tells us how underpriced the deals are on average.
     """
     if not memory:
-        return _empty("💰 Price Distribution")
+        return _empty("Price Distribution")
 
     prices    = [o.deal.price for o in memory]
     estimates = [o.estimate   for o in memory]
@@ -160,7 +160,7 @@ def price_distribution(memory) -> go.Figure:
         )
 
     fig.update_layout(
-        **_base(title="💰 Price Distribution"),
+        **_base(title="Price Distribution"),
         barmode="overlay",
         xaxis=_xaxis("Price ($)"),
         yaxis=_yaxis("Number of Deals"),
@@ -180,7 +180,7 @@ def discount_trends(memory) -> go.Figure:
     discount in dollars.  Traces are broken out by product category.
     """
     if not memory:
-        return _empty("📈 Discount Trends by Category")
+        return _empty("Discount Trends by Category")
 
     by_cat: dict[str, list] = defaultdict(list)
     for i, opp in enumerate(memory):
@@ -210,7 +210,7 @@ def discount_trends(memory) -> go.Figure:
     )
 
     fig.update_layout(
-        **_base(title="📈 Discount Trends by Category"),
+        **_base(title="Discount Trends by Category"),
         xaxis=_xaxis("Deal #"),
         yaxis=_yaxis("Discount ($)"),
         legend=_legend(),
@@ -233,7 +233,7 @@ def deal_quality_radar(memory) -> go.Figure:
     Two traces: the portfolio average and the single best deal.
     """
     if len(memory) < 2:
-        return _empty("🎯 Deal Quality Radar", "Need at least 2 deals to draw the radar")
+        return _empty("Deal Quality Radar", "Need at least 2 deals to draw the radar")
 
     prices    = [o.deal.price   for o in memory]
     discounts = [o.discount     for o in memory]
@@ -296,7 +296,7 @@ def savings_over_time(memory) -> go.Figure:
         • Right Y — individual deal discount (bar trace)
     """
     if not memory:
-        return _empty("💸 Savings Over Time")
+        return _empty("Savings Over Time")
 
     indices    = list(range(1, len(memory) + 1))
     individual = [max(o.discount, 0) for o in memory]
@@ -327,7 +327,7 @@ def savings_over_time(memory) -> go.Figure:
     ), secondary_y=True)
 
     fig.update_layout(
-        **_base(title="💸 Cumulative Savings Over Time"),
+        **_base(title="Cumulative Savings Over Time"),
         barmode="overlay",
         xaxis=dict(title="Deal #", gridcolor=GRID, dtick=1, tickfont_color=TEXT),
         legend=_legend(),
@@ -353,7 +353,7 @@ def category_breakdown(memory) -> go.Figure:
     The top category is pulled out for emphasis.
     """
     if not memory:
-        return _empty("🥧 Deals by Category")
+        return _empty("Deals by Category")
 
     counts: dict[str, int] = defaultdict(int)
     for opp in memory:
@@ -376,7 +376,7 @@ def category_breakdown(memory) -> go.Figure:
     )])
 
     fig.update_layout(
-        **_base(title="🥧 Deals by Category"),
+        **_base(title="Deals by Category"),
         legend=_legend(),
         annotations=[dict(
             text=f"{len(memory)}<br><span style='font-size:10px'>deals</span>",
@@ -398,7 +398,7 @@ def price_history_chart(tracked_product) -> go.Figure:
     history = getattr(tracked_product, "price_history", [])
     if not history:
         return _empty(
-            f"📦 {tracked_product.title[:50]}",
+            f"{tracked_product.title[:50]}",
             "No price history yet — click 'Check Prices Now'",
         )
 
@@ -441,7 +441,7 @@ def price_history_chart(tracked_product) -> go.Figure:
                 ax=20, ay=-30,
             )
 
-    title = f"📦 {tracked_product.title[:55]}"
+    title = f"{tracked_product.title[:55]}"
     fig.update_layout(
         **_base(title=title),
         xaxis=_xaxis("Check #"),
@@ -472,15 +472,15 @@ def summary_stats_html(memory) -> str:
     )
 
     cards = [
-        ("🏆", "Total Deals",     str(len(memory))),
-        ("💰", "Total Savings",   f"${total_savings:,.2f}"),
-        ("📊", "Avg Discount",    f"${avg_discount:.2f}"),
-        ("🚀", "Best Discount",   f"${best.discount:.2f}"),
-        ("🏷️", "Avg Deal Price",  f"${avg_price:.2f}"),
-        ("📦", "Top Category",    top_cat),
+        ("Total Deals",     str(len(memory))),
+        ("Total Savings",   f"${total_savings:,.2f}"),
+        ("Avg Discount",    f"${avg_discount:.2f}"),
+        ("Best Discount",   f"${best.discount:.2f}"),
+        ("Avg Deal Price",  f"${avg_price:.2f}"),
+        ("Top Category",    top_cat),
     ]
 
-    def card(emoji, label, value):
+    def card(label, value):
         return f"""
         <div style="
             flex:1; min-width:130px;
@@ -490,10 +490,9 @@ def summary_stats_html(memory) -> str:
             padding:16px 14px;
             text-align:center;
         ">
-            <div style="font-size:26px;">{emoji}</div>
             <div style="font-size:20px;font-weight:700;color:{ACCENT};margin:4px 0;">{value}</div>
             <div style="font-size:11px;color:#666;">{label}</div>
         </div>"""
 
-    inner = "".join(card(e, l, v) for e, l, v in cards)
+    inner = "".join(card(l, v) for l, v in cards)
     return f'<div style="display:flex;flex-wrap:wrap;gap:12px;padding:8px 0;">{inner}</div>'

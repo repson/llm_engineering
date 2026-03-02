@@ -27,12 +27,12 @@ VENV_DIR="$(dirname "$(dirname "$EXERCISE_DIR")")/.venv"   # llm_engineering/.ve
 
 print_header() {
     echo -e "\n${BOLD}${CYAN}═══════════════════════════════════════════════${RESET}"
-    echo -e "${BOLD}${CYAN}     🎯  The Price is Right — Agent Framework   ${RESET}"
+    echo -e "${BOLD}${CYAN}       The Price is Right — Agent Framework   ${RESET}"
     echo -e "${BOLD}${CYAN}═══════════════════════════════════════════════${RESET}\n"
 }
 
 check_env() {
-    echo -e "${CYAN}🔍 Checking environment...${RESET}"
+    echo -e "${CYAN}Checking environment...${RESET}"
 
     # Activate venv if not already active
     if [[ -z "${VIRTUAL_ENV:-}" ]]; then
@@ -40,7 +40,7 @@ check_env() {
             echo -e "   Activating virtual environment: ${YELLOW}${VENV_DIR}${RESET}"
             source "$VENV_DIR/bin/activate"
         else
-            echo -e "${RED}   ❌ Virtual environment not found at: ${VENV_DIR}${RESET}"
+            echo -e "${RED}   Virtual environment not found at: ${VENV_DIR}${RESET}"
             echo -e "${YELLOW}   Activate it manually: source .venv/bin/activate${RESET}"
             exit 1
         fi
@@ -53,22 +53,22 @@ check_env() {
     if [[ -f "$ENV_FILE" ]]; then
         echo -e "   .env file found: ${GREEN}${ENV_FILE}${RESET}"
     else
-        echo -e "${YELLOW}   ⚠️  .env file not found at: ${ENV_FILE}${RESET}"
+        echo -e "${YELLOW}   .env file not found at: ${ENV_FILE}${RESET}"
     fi
 
     # Check that the Modal service is deployed
     echo -e "   Checking Modal service (pricer-service)..."
     if modal app list 2>/dev/null | grep -q "pricer-service"; then
-        echo -e "   Modal service: ${GREEN}✅ Deployed${RESET}"
+        echo -e "   Modal service: ${GREEN}Deployed${RESET}"
     else
-        echo -e "   Modal service: ${YELLOW}⚠️  Not detected — run: ./tools/modal_service.sh deploy${RESET}"
+        echo -e "   Modal service: ${YELLOW}Not detected — run: ./tools/modal_service.sh deploy${RESET}"
     fi
 
     echo ""
 }
 
 start_ui() {
-    echo -e "${GREEN}🚀 Launching Gradio UI...${RESET}"
+    echo -e "${GREEN}Launching Gradio UI...${RESET}"
     echo -e "${YELLOW}   The UI will open automatically in your browser.${RESET}"
     echo -e "${CYAN}   Local access: http://127.0.0.1:7860${RESET}\n"
     cd "$EXERCISE_DIR"
@@ -76,13 +76,13 @@ start_ui() {
 }
 
 start_headless() {
-    echo -e "${GREEN}🤖 Running agent framework (headless, no UI)...${RESET}\n"
+    echo -e "${GREEN}Running agent framework (headless, no UI)...${RESET}\n"
     cd "$EXERCISE_DIR"
     python deal_agent_framework.py
 }
 
 start_with_warm() {
-    echo -e "${GREEN}🚀 Starting UI + keep_warm in parallel...${RESET}"
+    echo -e "${GREEN}Starting UI + keep_warm in parallel...${RESET}"
     echo -e "${YELLOW}   Press Ctrl+C to stop both processes.${RESET}\n"
     cd "$EXERCISE_DIR"
 
@@ -112,7 +112,7 @@ case "$MODE" in
     headless)   start_headless  ;;
     warm)       start_with_warm ;;
     *)
-        echo -e "${RED}❌ Unknown mode: '$MODE'${RESET}"
+        echo -e "${RED}Unknown mode: '$MODE'${RESET}"
         echo -e "${YELLOW}Available modes: ui, headless, warm${RESET}"
         exit 1
         ;;
